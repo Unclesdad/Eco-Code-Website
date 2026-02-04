@@ -12,23 +12,14 @@
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
 </head>
 <body>
-    <!-- Floating Leaves Background -->
-    <div class="floating-leaves" aria-hidden="true">
-        <div class="leaf leaf-1">🍃</div>
-        <div class="leaf leaf-2">🌿</div>
-        <div class="leaf leaf-3">🍂</div>
-        <div class="leaf leaf-4">🌱</div>
-        <div class="leaf leaf-5">🍃</div>
-        <div class="leaf leaf-6">🌿</div>
-        <div class="leaf leaf-7">🍂</div>
-        <div class="leaf leaf-8">🌱</div>
-    </div>
+    <!-- Animated Background Canvas -->
+    <canvas id="bg-canvas" aria-hidden="true"></canvas>
 
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a href="#" class="nav-logo">
-                <span class="logo-icon">🌍</span>
+                <img src="images/icon-earth.svg" alt="" class="logo-icon">
                 <span class="logo-text">Eco<span class="highlight">Code</span></span>
             </a>
             <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
@@ -49,8 +40,8 @@
     </nav>
 
     <!-- MLH Trust Badge -->
-    <a id="mlh-trust-badge" href="https://mlh.io/na?utm_source=na-hackathon&utm_medium=TrustBadge&utm_campaign=2025-season&utm_content=white" target="_blank" rel="noopener">
-        <img src="https://s3.amazonaws.com/logged-assets/trust-badge/2025/mlh-trust-badge-2025-white.svg" alt="Major League Hacking 2025 Hackathon Season" loading="lazy">
+    <a id="mlh-trust-badge" href="https://mlh.io/na?utm_source=na-hackathon&utm_medium=TrustBadge&utm_campaign=2026-season&utm_content=white" target="_blank" rel="noopener">
+        <img src="https://s3.amazonaws.com/logged-assets/trust-badge/2026/mlh-trust-badge-2026-white.svg" alt="Major League Hacking 2026 Hackathon Season" loading="lazy">
     </a>
 
     <!-- Hero Section -->
@@ -61,8 +52,8 @@
         </div>
         <div class="hero-content">
             <div class="hero-badge">
-                <span class="badge-icon">🌱</span>
-                <span>MLH 2025 Official Event</span>
+                <img src="images/icon-seedling.svg" alt="" class="badge-icon">
+                <span>MLH 2026 Official Event</span>
             </div>
             <h1 class="hero-title">
                 <span class="title-line">Eco</span>
@@ -75,15 +66,15 @@
             </p>
             <div class="hero-details">
                 <div class="detail-item">
-                    <span class="detail-icon">📅</span>
+                    <img src="images/icon-calendar.svg" alt="" class="detail-icon">
                     <span>Date TBD</span>
                 </div>
                 <div class="detail-item">
-                    <span class="detail-icon">📍</span>
+                    <img src="images/icon-location.svg" alt="" class="detail-icon">
                     <span>Location TBD</span>
                 </div>
                 <div class="detail-item">
-                    <span class="detail-icon">💰</span>
+                    <img src="images/icon-trophy.svg" alt="" class="detail-icon">
                     <span>Prizes TBD</span>
                 </div>
             </div>
@@ -98,20 +89,20 @@
             </div>
             <div class="hero-stats">
                 <div class="stat">
-                    <span class="stat-number" data-count="24">0</span>
+                    <span class="stat-number">##</span>
+                    <span class="stat-label">Hackers</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">##</span>
                     <span class="stat-label">Hours</span>
                 </div>
                 <div class="stat">
-                    <span class="stat-number" data-count="4">0</span>
-                    <span class="stat-label">Tracks</span>
+                    <span class="stat-number">##</span>
+                    <span class="stat-label">Projects</span>
                 </div>
                 <div class="stat">
-                    <span class="stat-number" data-count="1">0</span>
-                    <span class="stat-label">Weekend</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-number" data-count="0">0</span>
-                    <span class="stat-label">Emissions</span>
+                    <span class="stat-number">##</span>
+                    <span class="stat-label">Mentors</span>
                 </div>
             </div>
         </div>
@@ -141,28 +132,28 @@
                     </p>
                     <div class="about-features">
                         <div class="feature">
-                            <div class="feature-icon">🌿</div>
+                            <img src="images/icon-leaf.svg" alt="" class="feature-icon">
                             <div class="feature-text">
                                 <h4>Sustainable Focus</h4>
                                 <p>All projects centered on environmental impact</p>
                             </div>
                         </div>
                         <div class="feature">
-                            <div class="feature-icon">🤝</div>
+                            <img src="images/icon-handshake.svg" alt="" class="feature-icon">
                             <div class="feature-text">
                                 <h4>Inclusive Community</h4>
                                 <p>Welcoming hackers of all backgrounds and skill levels</p>
                             </div>
                         </div>
                         <div class="feature">
-                            <div class="feature-icon">🎓</div>
+                            <img src="images/icon-graduation.svg" alt="" class="feature-icon">
                             <div class="feature-text">
                                 <h4>Learn & Grow</h4>
                                 <p>Workshops, mentorship, and hands-on experience</p>
                             </div>
                         </div>
                         <div class="feature">
-                            <div class="feature-icon">🏆</div>
+                            <img src="images/icon-trophy.svg" alt="" class="feature-icon">
                             <div class="feature-text">
                                 <h4>Amazing Prizes</h4>
                                 <p>Prizes and swag from our sponsors</p>
@@ -173,9 +164,9 @@
                 <div class="about-visual">
                     <div class="visual-card">
                         <div class="earth-animation">
-                            <div class="earth">🌍</div>
+                            <img src="images/icon-earth-lg.svg" alt="" class="earth">
                             <div class="orbit">
-                                <span class="satellite">🛰️</span>
+                                <img src="images/icon-satellite.svg" alt="" class="satellite">
                             </div>
                         </div>
                         <div class="visual-text">
@@ -198,7 +189,7 @@
             </div>
             <div class="tracks-grid">
                 <div class="track-card" data-track="climate">
-                    <div class="track-icon">🌡️</div>
+                    <img src="images/icon-thermometer.svg" alt="" class="track-icon">
                     <h3 class="track-title">Climate Action</h3>
                     <p class="track-description">Build tools to monitor, predict, or mitigate climate change effects. From carbon footprint trackers to climate modeling visualizations.</p>
                     <ul class="track-ideas">
@@ -212,7 +203,7 @@
                     </div>
                 </div>
                 <div class="track-card" data-track="biodiversity">
-                    <div class="track-icon">🦋</div>
+                    <img src="images/icon-butterfly.svg" alt="" class="track-icon">
                     <h3 class="track-title">Biodiversity</h3>
                     <p class="track-description">Create solutions to protect and monitor wildlife, ecosystems, and natural habitats around the world.</p>
                     <ul class="track-ideas">
@@ -226,7 +217,7 @@
                     </div>
                 </div>
                 <div class="track-card" data-track="circular">
-                    <div class="track-icon">♻️</div>
+                    <img src="images/icon-recycle.svg" alt="" class="track-icon">
                     <h3 class="track-title">Circular Economy</h3>
                     <p class="track-description">Develop platforms that reduce waste, promote recycling, and encourage sustainable consumption patterns.</p>
                     <ul class="track-ideas">
@@ -240,7 +231,7 @@
                     </div>
                 </div>
                 <div class="track-card" data-track="education">
-                    <div class="track-icon">📚</div>
+                    <img src="images/icon-book.svg" alt="" class="track-icon">
                     <h3 class="track-title">Green Education</h3>
                     <p class="track-description">Build engaging educational tools that spread environmental awareness and inspire eco-friendly behaviors.</p>
                     <ul class="track-ideas">
@@ -275,7 +266,7 @@
                         <div class="timeline-item">
                             <div class="timeline-time">9:00 AM</div>
                             <div class="timeline-content">
-                                <div class="timeline-badge">🚪</div>
+                                <img src="images/icon-door.svg" alt="" class="timeline-badge">
                                 <h4>Check-in & Breakfast</h4>
                                 <p>Registration opens, grab some food, and get your swag!</p>
                             </div>
@@ -283,7 +274,7 @@
                         <div class="timeline-item">
                             <div class="timeline-time">10:00 AM</div>
                             <div class="timeline-content">
-                                <div class="timeline-badge">🎤</div>
+                                <img src="images/icon-mic.svg" alt="" class="timeline-badge">
                                 <h4>Opening Ceremony</h4>
                                 <p>Welcome address, sponsor introductions, and track announcements</p>
                             </div>
@@ -291,7 +282,7 @@
                         <div class="timeline-item highlight">
                             <div class="timeline-time">11:00 AM</div>
                             <div class="timeline-content">
-                                <div class="timeline-badge">🚀</div>
+                                <img src="images/icon-rocket.svg" alt="" class="timeline-badge">
                                 <h4>Hacking Begins!</h4>
                                 <p>Form teams, brainstorm ideas, and start building</p>
                             </div>
@@ -299,7 +290,7 @@
                         <div class="timeline-item">
                             <div class="timeline-time">12:00 PM</div>
                             <div class="timeline-content">
-                                <div class="timeline-badge">🍕</div>
+                                <img src="images/icon-pizza.svg" alt="" class="timeline-badge">
                                 <h4>Lunch</h4>
                                 <p>Refuel with sustainable, locally-sourced food</p>
                             </div>
@@ -307,7 +298,7 @@
                         <div class="timeline-item">
                             <div class="timeline-time">2:00 PM</div>
                             <div class="timeline-content">
-                                <div class="timeline-badge">📚</div>
+                                <img src="images/icon-workshop.svg" alt="" class="timeline-badge">
                                 <h4>Workshop: Intro to ML for Climate</h4>
                                 <p>Learn how to apply machine learning to environmental data</p>
                             </div>
@@ -315,7 +306,7 @@
                         <div class="timeline-item">
                             <div class="timeline-time">4:00 PM</div>
                             <div class="timeline-content">
-                                <div class="timeline-badge">🎮</div>
+                                <img src="images/icon-gamepad.svg" alt="" class="timeline-badge">
                                 <h4>Mini Event: Eco Trivia</h4>
                                 <p>Take a break and test your environmental knowledge</p>
                             </div>
@@ -323,7 +314,7 @@
                         <div class="timeline-item">
                             <div class="timeline-time">6:00 PM</div>
                             <div class="timeline-content">
-                                <div class="timeline-badge">🍽️</div>
+                                <img src="images/icon-dinner.svg" alt="" class="timeline-badge">
                                 <h4>Dinner</h4>
                                 <p>Evening meal and networking</p>
                             </div>
@@ -331,7 +322,7 @@
                         <div class="timeline-item">
                             <div class="timeline-time">8:00 PM</div>
                             <div class="timeline-content">
-                                <div class="timeline-badge">💡</div>
+                                <img src="images/icon-lightbulb.svg" alt="" class="timeline-badge">
                                 <h4>Workshop: API & Data Sources</h4>
                                 <p>Discover environmental APIs and datasets for your project</p>
                             </div>
@@ -339,7 +330,7 @@
                         <div class="timeline-item">
                             <div class="timeline-time">11:00 PM</div>
                             <div class="timeline-content">
-                                <div class="timeline-badge">🌙</div>
+                                <img src="images/icon-moon.svg" alt="" class="timeline-badge">
                                 <h4>Midnight Snacks</h4>
                                 <p>Late night fuel for the dedicated hackers</p>
                             </div>
@@ -351,7 +342,7 @@
                         <div class="timeline-item">
                             <div class="timeline-time">8:00 AM</div>
                             <div class="timeline-content">
-                                <div class="timeline-badge">☕</div>
+                                <img src="images/icon-coffee.svg" alt="" class="timeline-badge">
                                 <h4>Breakfast</h4>
                                 <p>Morning fuel and coffee to power through</p>
                             </div>
@@ -359,7 +350,7 @@
                         <div class="timeline-item">
                             <div class="timeline-time">10:00 AM</div>
                             <div class="timeline-content">
-                                <div class="timeline-badge">📚</div>
+                                <img src="images/icon-workshop.svg" alt="" class="timeline-badge">
                                 <h4>Workshop: Pitching Your Project</h4>
                                 <p>Learn how to present your hack effectively</p>
                             </div>
@@ -367,7 +358,7 @@
                         <div class="timeline-item highlight">
                             <div class="timeline-time">11:00 AM</div>
                             <div class="timeline-content">
-                                <div class="timeline-badge">⏰</div>
+                                <img src="images/icon-clock.svg" alt="" class="timeline-badge">
                                 <h4>Hacking Ends</h4>
                                 <p>Submit your projects on Devpost</p>
                             </div>
@@ -375,7 +366,7 @@
                         <div class="timeline-item">
                             <div class="timeline-time">12:00 PM</div>
                             <div class="timeline-content">
-                                <div class="timeline-badge">🍕</div>
+                                <img src="images/icon-pizza.svg" alt="" class="timeline-badge">
                                 <h4>Lunch</h4>
                                 <p>Celebrate your accomplishments!</p>
                             </div>
@@ -383,7 +374,7 @@
                         <div class="timeline-item">
                             <div class="timeline-time">1:00 PM</div>
                             <div class="timeline-content">
-                                <div class="timeline-badge">🎯</div>
+                                <img src="images/icon-target.svg" alt="" class="timeline-badge">
                                 <h4>Project Expo</h4>
                                 <p>Demo your project to judges and fellow hackers</p>
                             </div>
@@ -391,7 +382,7 @@
                         <div class="timeline-item">
                             <div class="timeline-time">3:00 PM</div>
                             <div class="timeline-content">
-                                <div class="timeline-badge">🏆</div>
+                                <img src="images/icon-trophy.svg" alt="" class="timeline-badge">
                                 <h4>Closing Ceremony</h4>
                                 <p>Winner announcements and prizes!</p>
                             </div>
@@ -399,7 +390,7 @@
                         <div class="timeline-item">
                             <div class="timeline-time">4:30 PM</div>
                             <div class="timeline-content">
-                                <div class="timeline-badge">👋</div>
+                                <img src="images/icon-wave.svg" alt="" class="timeline-badge">
                                 <h4>Event Ends</h4>
                                 <p>See you next year!</p>
                             </div>
@@ -420,7 +411,7 @@
             </div>
             <div class="prizes-showcase">
                 <div class="prize-card grand">
-                    <div class="prize-rank">🥇</div>
+                    <img src="images/icon-medal-gold.svg" alt="" class="prize-rank">
                     <h3 class="prize-title">Grand Prize</h3>
                     <div class="prize-value">TBD</div>
                     <p class="prize-description">The most innovative and impactful environmental solution</p>
@@ -429,7 +420,7 @@
                     </ul>
                 </div>
                 <div class="prize-card second">
-                    <div class="prize-rank">🥈</div>
+                    <img src="images/icon-medal-silver.svg" alt="" class="prize-rank">
                     <h3 class="prize-title">Second Place</h3>
                     <div class="prize-value">TBD</div>
                     <p class="prize-description">Runner-up with exceptional execution</p>
@@ -438,7 +429,7 @@
                     </ul>
                 </div>
                 <div class="prize-card third">
-                    <div class="prize-rank">🥉</div>
+                    <img src="images/icon-medal-bronze.svg" alt="" class="prize-rank">
                     <h3 class="prize-title">Third Place</h3>
                     <div class="prize-value">TBD</div>
                     <p class="prize-description">Outstanding project with great potential</p>
@@ -451,32 +442,32 @@
                 <h3 class="special-title">Special Category Prizes</h3>
                 <div class="special-grid">
                     <div class="special-card">
-                        <span class="special-icon">🌟</span>
+                        <img src="images/icon-star.svg" alt="" class="special-icon">
                         <h4>Best First-Time Hack</h4>
                         <p>TBD</p>
                     </div>
                     <div class="special-card">
-                        <span class="special-icon">🎨</span>
+                        <img src="images/icon-palette.svg" alt="" class="special-icon">
                         <h4>Best Design</h4>
                         <p>TBD</p>
                     </div>
                     <div class="special-card">
-                        <span class="special-icon">🔧</span>
+                        <img src="images/icon-wrench.svg" alt="" class="special-icon">
                         <h4>Best Hardware Hack</h4>
                         <p>TBD</p>
                     </div>
                     <div class="special-card">
-                        <span class="special-icon">🤖</span>
+                        <img src="images/icon-robot.svg" alt="" class="special-icon">
                         <h4>Best Use of AI</h4>
                         <p>TBD</p>
                     </div>
                     <div class="special-card">
-                        <span class="special-icon">🌍</span>
+                        <img src="images/icon-globe.svg" alt="" class="special-icon">
                         <h4>Most Impactful</h4>
                         <p>TBD</p>
                     </div>
                     <div class="special-card">
-                        <span class="special-icon">💚</span>
+                        <img src="images/icon-heart.svg" alt="" class="special-icon">
                         <h4>Community Choice</h4>
                         <p>TBD</p>
                     </div>
@@ -495,7 +486,7 @@
             </div>
             <div class="sponsor-tiers">
                 <div class="sponsor-tier platinum">
-                    <h3 class="tier-title">🌳 Platinum Partners</h3>
+                    <h3 class="tier-title">Platinum Partners</h3>
                     <div class="sponsor-logos">
                         <div class="sponsor-logo placeholder">
                             <span>Your Logo Here</span>
@@ -506,7 +497,7 @@
                     </div>
                 </div>
                 <div class="sponsor-tier gold">
-                    <h3 class="tier-title">🌻 Gold Partners</h3>
+                    <h3 class="tier-title">Gold Partners</h3>
                     <div class="sponsor-logos">
                         <div class="sponsor-logo placeholder">
                             <span>Your Logo Here</span>
@@ -520,7 +511,7 @@
                     </div>
                 </div>
                 <div class="sponsor-tier silver">
-                    <h3 class="tier-title">🌿 Silver Partners</h3>
+                    <h3 class="tier-title">Silver Partners</h3>
                     <div class="sponsor-logos">
                         <div class="sponsor-logo placeholder small">
                             <span>Logo</span>
@@ -740,7 +731,7 @@
             <div class="team-grid">
                 <div class="team-card">
                     <div class="team-avatar">
-                        <span>👤</span>
+                        <img src="images/icon-person.svg" alt="">
                     </div>
                     <h4 class="team-name">Team Member</h4>
                     <p class="team-role">Lead Organizer</p>
@@ -754,7 +745,7 @@
                 </div>
                 <div class="team-card">
                     <div class="team-avatar">
-                        <span>👤</span>
+                        <img src="images/icon-person.svg" alt="">
                     </div>
                     <h4 class="team-name">Team Member</h4>
                     <p class="team-role">Co-Organizer</p>
@@ -768,7 +759,7 @@
                 </div>
                 <div class="team-card">
                     <div class="team-avatar">
-                        <span>👤</span>
+                        <img src="images/icon-person.svg" alt="">
                     </div>
                     <h4 class="team-name">Team Member</h4>
                     <p class="team-role">Design Lead</p>
@@ -782,7 +773,7 @@
                 </div>
                 <div class="team-card">
                     <div class="team-avatar">
-                        <span>👤</span>
+                        <img src="images/icon-person.svg" alt="">
                     </div>
                     <h4 class="team-name">Team Member</h4>
                     <p class="team-role">Logistics Lead</p>
@@ -804,7 +795,7 @@
             <div class="footer-content">
                 <div class="footer-brand">
                     <a href="#" class="footer-logo">
-                        <span class="logo-icon">🌍</span>
+                        <img src="images/icon-earth.svg" alt="" class="logo-icon">
                         <span class="logo-text">Eco<span class="highlight">Code</span></span>
                     </a>
                     <p>Hack for the Planet. Building sustainable solutions through technology.</p>
@@ -862,7 +853,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; <span id="year">2025</span> Eco Code. Made with 💚 for the planet.</p>
+                <p>&copy; <span id="year">2025</span> Eco Code. Made with <img src="images/icon-heart-green.svg" alt="love" class="inline-icon"> for the planet.</p>
                 <p class="mlh-notice">
                     <a href="https://mlh.io" target="_blank" rel="noopener">MLH</a> is a registered trademark of Major League Hacking, Inc.
                 </p>
@@ -871,5 +862,6 @@
     </footer>
 
     <script src="script.js"></script>
+    <script src="background.js"></script>
 </body>
 </html>

@@ -37,10 +37,10 @@
     --color-neutral-900: #171717;
     --color-neutral-950: #0a0a0a;
 
-    /* Semantic Colors */
-    --color-background: #0a0f0d;
-    --color-surface: #111916;
-    --color-surface-elevated: #1a2420;
+    /* Semantic Colors - Semi-transparent to show background canvas */
+    --color-background: rgba(10, 15, 13, 0.85);
+    --color-surface: rgba(17, 25, 22, 0.9);
+    --color-surface-elevated: rgba(26, 36, 32, 0.92);
     --color-text: #f0fdf4;
     --color-text-muted: #a3a3a3;
     --color-border: rgba(34, 197, 94, 0.2);
@@ -114,7 +114,7 @@ body {
     font-size: 16px;
     line-height: 1.6;
     color: var(--color-text);
-    background-color: var(--color-background);
+    background-color: #050507;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -148,47 +148,94 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ========================================
-   FLOATING LEAVES ANIMATION
+   ANIMATED BACKGROUND CANVAS
    ======================================== */
-.floating-leaves {
+#bg-canvas {
     position: fixed;
-    inset: 0;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
     pointer-events: none;
-    z-index: 0;
-    overflow: hidden;
 }
 
-.leaf {
+/* ========================================
+   ICON STYLES (replacing emojis)
+   ======================================== */
+.logo-icon {
+    width: 1.75rem;
+    height: 1.75rem;
+    object-fit: contain;
+}
+
+.badge-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    object-fit: contain;
+}
+
+.detail-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+}
+
+.feature-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.track-icon {
+    width: 3.5rem;
+    height: 3.5rem;
+    object-fit: contain;
+    margin-bottom: var(--space-md);
+}
+
+.timeline-badge {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
     position: absolute;
-    font-size: 2rem;
-    opacity: 0.15;
-    animation: float-leaf 20s linear infinite;
+    top: var(--space-lg);
+    left: -11px;
+    z-index: 2;
+    background: var(--color-surface-elevated);
+    border-radius: 50%;
+    padding: 2px;
 }
 
-.leaf-1 { left: 5%; animation-delay: 0s; animation-duration: 25s; }
-.leaf-2 { left: 15%; animation-delay: -5s; animation-duration: 22s; }
-.leaf-3 { left: 30%; animation-delay: -2s; animation-duration: 28s; }
-.leaf-4 { left: 45%; animation-delay: -8s; animation-duration: 24s; }
-.leaf-5 { left: 60%; animation-delay: -4s; animation-duration: 26s; }
-.leaf-6 { left: 75%; animation-delay: -6s; animation-duration: 23s; }
-.leaf-7 { left: 85%; animation-delay: -3s; animation-duration: 27s; }
-.leaf-8 { left: 95%; animation-delay: -7s; animation-duration: 21s; }
+.prize-rank {
+    width: 4rem;
+    height: 4rem;
+    object-fit: contain;
+    margin-bottom: var(--space-md);
+}
 
-@keyframes float-leaf {
-    0% {
-        transform: translateY(-100px) rotate(0deg);
-        opacity: 0;
-    }
-    10% {
-        opacity: 0.15;
-    }
-    90% {
-        opacity: 0.15;
-    }
-    100% {
-        transform: translateY(calc(100vh + 100px)) rotate(720deg);
-        opacity: 0;
-    }
+.special-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    object-fit: contain;
+    margin-bottom: var(--space-sm);
+    display: block;
+}
+
+.team-avatar img {
+    width: 60%;
+    height: 60%;
+    object-fit: contain;
+    opacity: 0.5;
+}
+
+.inline-icon {
+    width: 1em;
+    height: 1em;
+    vertical-align: middle;
+    display: inline;
 }
 
 /* ========================================
@@ -217,8 +264,8 @@ h1, h2, h3, h4, h5, h6 {
     right: 0;
     z-index: 1000;
     padding: var(--space-md) 0;
-    background: rgba(10, 15, 13, 0.8);
-    backdrop-filter: blur(20px);
+    background: rgba(10, 15, 13, 0.7);
+    backdrop-filter: blur(12px);
     border-bottom: 1px solid transparent;
     transition: all var(--transition-base);
 }
@@ -352,25 +399,20 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .hero-bg {
-    position: absolute;
-    inset: 0;
-    z-index: -1;
+    display: none; /* Hidden to show canvas background */
 }
 
 .hero-gradient {
     position: absolute;
     inset: 0;
     background:
-        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(34, 197, 94, 0.3), transparent),
-        radial-gradient(ellipse 60% 40% at 80% 60%, rgba(20, 184, 166, 0.15), transparent),
-        radial-gradient(ellipse 50% 30% at 20% 80%, rgba(34, 197, 94, 0.1), transparent);
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(34, 197, 94, 0.15), transparent),
+        radial-gradient(ellipse 60% 40% at 80% 60%, rgba(20, 184, 166, 0.08), transparent),
+        radial-gradient(ellipse 50% 30% at 20% 80%, rgba(34, 197, 94, 0.05), transparent);
 }
 
 .hero-pattern {
-    position: absolute;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2322c55e' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-    opacity: 0.5;
+    display: none; /* Hidden to let canvas background show through */
 }
 
 .hero-content {
@@ -636,7 +678,7 @@ h1, h2, h3, h4, h5, h6 {
    ABOUT SECTION
    ======================================== */
 .about {
-    background: linear-gradient(180deg, var(--color-background), var(--color-surface));
+    background: linear-gradient(180deg, rgba(10, 15, 13, 0.7), rgba(17, 25, 22, 0.75));
 }
 
 .about-grid {
@@ -706,7 +748,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .earth {
-    font-size: 8rem;
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
     animation: spin 20s linear infinite;
 }
 
@@ -733,7 +777,8 @@ h1, h2, h3, h4, h5, h6 {
     top: -10px;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 1.5rem;
+    width: 24px;
+    height: 24px;
 }
 
 .visual-stat {
@@ -753,7 +798,7 @@ h1, h2, h3, h4, h5, h6 {
    TRACKS SECTION
    ======================================== */
 .tracks {
-    background: var(--color-surface);
+    background: rgba(17, 25, 22, 0.75);
 }
 
 .tracks-grid {
@@ -852,7 +897,7 @@ h1, h2, h3, h4, h5, h6 {
    SCHEDULE SECTION
    ======================================== */
 .schedule {
-    background: linear-gradient(180deg, var(--color-surface), var(--color-background));
+    background: linear-gradient(180deg, rgba(17, 25, 22, 0.75), rgba(10, 15, 13, 0.7));
 }
 
 .schedule-tabs {
@@ -988,7 +1033,7 @@ h1, h2, h3, h4, h5, h6 {
    PRIZES SECTION
    ======================================== */
 .prizes {
-    background: var(--color-background);
+    background: rgba(10, 15, 13, 0.7);
 }
 
 .prizes-showcase {
@@ -1127,7 +1172,7 @@ h1, h2, h3, h4, h5, h6 {
    SPONSORS SECTION
    ======================================== */
 .sponsors {
-    background: var(--color-surface);
+    background: rgba(17, 25, 22, 0.75);
 }
 
 .sponsor-tiers {
@@ -1194,7 +1239,7 @@ h1, h2, h3, h4, h5, h6 {
    FAQ SECTION
    ======================================== */
 .faq {
-    background: linear-gradient(180deg, var(--color-surface), var(--color-background));
+    background: linear-gradient(180deg, rgba(17, 25, 22, 0.75), rgba(10, 15, 13, 0.7));
 }
 
 .faq-grid {
@@ -1279,18 +1324,13 @@ h1, h2, h3, h4, h5, h6 {
    REGISTRATION SECTION
    ======================================== */
 .register {
-    background: var(--color-background);
+    background: rgba(10, 15, 13, 0.7);
     position: relative;
     overflow: hidden;
 }
 
 .register::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background:
-        radial-gradient(ellipse 60% 40% at 20% 50%, rgba(34, 197, 94, 0.2), transparent),
-        radial-gradient(ellipse 40% 30% at 80% 70%, rgba(20, 184, 166, 0.15), transparent);
+    display: none; /* Removed to let canvas show through */
 }
 
 .register-content {
@@ -1404,7 +1444,7 @@ h1, h2, h3, h4, h5, h6 {
    TEAM SECTION
    ======================================== */
 .team {
-    background: var(--color-surface);
+    background: rgba(17, 25, 22, 0.75);
 }
 
 .team-grid {
@@ -1478,7 +1518,7 @@ h1, h2, h3, h4, h5, h6 {
    FOOTER
    ======================================== */
 .footer {
-    background: var(--color-surface);
+    background: rgba(17, 25, 22, 0.85);
     padding: var(--space-4xl) 0 var(--space-xl);
     border-top: 1px solid var(--color-border);
 }

@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initStatsCounter();
     initRevealAnimations();
     initMouseGlow();
+    initParallax();
 });
 
 /**
@@ -317,3 +318,18 @@ function addFloatingLeaves() {
 // Update copyright year
 const yearEl = document.getElementById('year');
 if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+/**
+ * Parallax scrolling for background
+ */
+function initParallax() {
+    const canvas = document.getElementById('bg-canvas');
+    if (!canvas) return;
+
+    function updateParallax() {
+        document.documentElement.style.setProperty('--scroll-y', window.scrollY);
+    }
+
+    window.addEventListener('scroll', updateParallax, { passive: true });
+    updateParallax();
+}
