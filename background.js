@@ -21,13 +21,13 @@ class CrystalTreeBackground {
                 '#1db868', '#25d075', '#3de88a', '#5cf0a0',
                 '#134e2a', '#1a6b3a', '#22884a'
             ],
-            maxTreeCrystals: 100, // More crystals for bigger tree
+            maxTreeCrystals: 180, // More crystals for bigger tree
             maxFallingCrystals: 12,
             crystalRegenRate: 1500, // Faster regen
-            swayAmount: 4,
-            swaySpeed: 0.0008,
-            terminalVelocity: 8, // Faster falling
-            gravity: 0.08
+            swayAmount: 6,
+            swaySpeed: 0.0015,
+            terminalVelocity: 6, // Max fall speed
+            gravity: 0.03  // Slower acceleration for gentler falling
         };
 
         // State
@@ -108,8 +108,8 @@ class CrystalTreeBackground {
     createTree() {
         const centerX = this.width / 2;
         // Tree positioned lower so top branches are visible
-        const trunkTop = this.sceneHeight * 0.12;  // Moved down further
-        const trunkBottom = this.sceneHeight * 0.32;  // Extended trunk
+        const trunkTop = this.sceneHeight * 0.14;  // Moved down more
+        const trunkBottom = this.sceneHeight * 0.35;  // Extended trunk
         const trunkWidth = Math.min(72, this.width * 0.05) * 1.2;
 
         this.tree = {
@@ -162,6 +162,12 @@ class CrystalTreeBackground {
             const endX = startX + Math.cos(angle) * baseLength * hStretch;
             const endY = startY + Math.sin(angle) * baseLength;
 
+            // Generate main children at endpoint
+            const mainChildren = this.generateTreeChildren(endX, endY, angle, 5, false, depthValue, thickness, hStretch);
+
+            // Add small twig offshoots along the main branch
+            const twigs = this.generateTwigs(startX, startY, endX, endY, angle, thickness * 0.4, hStretch);
+
             branches.push({
                 startX: startX,
                 startY: startY,
@@ -169,7 +175,7 @@ class CrystalTreeBackground {
                 endY: endY,
                 thickness: thickness,
                 swayOffset: Math.random() * Math.PI * 2,
-                children: this.generateTreeChildren(endX, endY, angle, 5, false, depthValue, thickness, hStretch),
+                children: [...mainChildren, ...twigs],
                 depthValue: depthValue
             });
         }
@@ -201,14 +207,14 @@ class CrystalTreeBackground {
             });
         }
 
-        // Add two diagonal-down branches to fill empty space beside trunk
+        // Add two diagonal branches to fill empty space beside trunk
+        // Going mostly sideways with only slight downward tilt
         for (let i = 0; i < 2; i++) {
             const side = (i === 0) ? -1 : 1;
-            // Start from middle of trunk, angle diagonally down and out
-            const startY = branchZoneBottom + trunkHeight * 0.15;
+            const startY = branchZoneBottom + trunkHeight * 0.1;
             const startX = centerX + side * trunkWidth * 0.3;
-            // Angle: mostly sideways with slight downward tilt
-            const angle = side * Math.PI * 0.35 + Math.PI * 0.08;
+            // Angle: mostly horizontal, slight downward tilt (0.15 rad ≈ 9 degrees)
+            const angle = (side === 1) ? 0.15 : Math.PI - 0.15;
 
             const thicknessRatio = 0.25 + Math.random() * 0.1;
             const thickness = trunkWidth * thicknessRatio;
@@ -230,6 +236,43 @@ class CrystalTreeBackground {
         }
 
         return branches;
+    }
+
+    generateTwigs(startX, startY, endX, endY, parentAngle, thickness, hStretch) {
+        const twigs = [];
+        // Add 2-4 small twigs along the branch
+        const twigCount = 2 + Math.floor(Math.random() * 3);
+
+        for (let i = 0; i < twigCount; i++) {
+            // Position along the branch (20% to 80%)
+            const t = 0.2 + Math.random() * 0.6;
+            const twigStartX = startX + (endX - startX) * t;
+            const twigStartY = startY + (endY - startY) * t;
+
+            // Angle off to the side
+            const side = Math.random() < 0.5 ? 1 : -1;
+            const angleOffset = side * (0.4 + Math.random() * 0.5);
+            const twigAngle = parentAngle + angleOffset;
+
+            // Short twig length
+            const twigLength = this.width * 0.015 + Math.random() * this.width * 0.015;
+
+            const twigEndX = twigStartX + Math.cos(twigAngle) * twigLength * hStretch;
+            const twigEndY = twigStartY + Math.sin(twigAngle) * twigLength;
+
+            twigs.push({
+                startX: twigStartX,
+                startY: twigStartY,
+                endX: twigEndX,
+                endY: twigEndY,
+                thickness: thickness * (0.5 + Math.random() * 0.3),
+                swayOffset: Math.random() * Math.PI * 2,
+                children: this.generateTreeChildren(twigEndX, twigEndY, twigAngle, 2, false, 0, thickness * 0.5, hStretch),
+                depthValue: 0
+            });
+        }
+
+        return twigs;
     }
 
     generateTreeChildren(x, y, parentAngle, depth, isContinuation = false, parentDepthValue = 0, parentThickness = 10, hStretch = 1.5) {
@@ -287,17 +330,18 @@ class CrystalTreeBackground {
 
     generateRoots(centerX, treeBottom, trunkWidth) {
         const roots = [];
-        const rootCount = 7;  // Fewer, thicker main roots (6-8)
+        const rootCount = 7;
 
         for (let i = 0; i < rootCount; i++) {
-            // Roots spread more horizontally and curve downward
-            const baseAngle = (i / (rootCount - 1)) * Math.PI * 1.2 + Math.PI * 0.4;
-            const angle = baseAngle + (Math.random() - 0.5) * 0.25;
-            const length = this.width * 0.12 + Math.random() * this.width * 0.1;
+            // Roots spread symmetrically: from lower-left (0.2π) to lower-right (0.8π)
+            // Center is 0.5π (straight down)
+            const baseAngle = 0.2 * Math.PI + (i / (rootCount - 1)) * 0.6 * Math.PI;
+            const angle = baseAngle + (Math.random() - 0.5) * 0.15;
+            const length = this.width * 0.14 + Math.random() * this.width * 0.1;
 
             const startX = centerX + (Math.random() - 0.5) * trunkWidth * 0.8;
             const endX = startX + Math.cos(angle) * length;
-            const endY = treeBottom + Math.sin(angle) * length * 0.5 + 30;
+            const endY = treeBottom + Math.sin(angle) * length * 0.7 + 60;  // Extended down more
 
             // Control point for bezier curve - makes roots curve naturally
             const curveAmount = 0.3 + Math.random() * 0.2;
@@ -389,7 +433,7 @@ class CrystalTreeBackground {
         this.groundCrystals = [];
         // Ground pile at the very bottom of the scene (above footer)
         // Position it so it appears just above the footer when scrolled down
-        this.groundY = this.sceneHeight * 0.95;
+        this.groundY = this.sceneHeight * 0.77;
         const pileWidth = this.width * 0.7;
         const pileCenter = this.width / 2;
 
@@ -515,11 +559,18 @@ class CrystalTreeBackground {
 
         this.fallingCrystals.push({
             ...crystal,
+            // Use current swayed position as the new base
+            // Add size to Y because hanging crystals are drawn offset by size
+            baseX: crystal.x,
+            baseY: crystal.y + crystal.size,
+            x: crystal.x,  // Start at exact current position
+            y: crystal.y + crystal.size,
             velocity: 0,
-            // Keep the current swing angle as starting rotation, then slowly spin
+            // Keep the current swing angle as starting rotation
             rotation: crystal.swayAngle || 0,
-            rotationSpeed: (Math.random() - 0.5) * 0.02,  // Slower rotation while falling
-            swayPhase: Math.random() * Math.PI * 2
+            rotationSpeed: (Math.random() - 0.5) * 0.01,
+            swayPhase: 0,
+            fallDelay: 8  // Small delay before falling starts (in frames)
         });
     }
 
@@ -542,13 +593,19 @@ class CrystalTreeBackground {
 
     updateFallingCrystals() {
         this.fallingCrystals = this.fallingCrystals.filter(crystal => {
-            // Apply gravity - faster falling
+            // Small delay before falling starts for smoother transition
+            if (crystal.fallDelay > 0) {
+                crystal.fallDelay--;
+                return true;
+            }
+
+            // Apply gravity with gentler start
             crystal.velocity = Math.min(crystal.velocity + this.config.gravity, this.config.terminalVelocity);
             crystal.y += crystal.velocity;
 
-            // Gentle sway while falling
-            crystal.swayPhase += 0.015;
-            crystal.x = crystal.baseX + Math.sin(crystal.swayPhase) * 15;
+            // Gentle sway while falling (reduced amplitude)
+            crystal.swayPhase += 0.012;
+            crystal.x = crystal.baseX + Math.sin(crystal.swayPhase) * 10;
 
             // Rotate while falling
             crystal.rotation += crystal.rotationSpeed;
@@ -786,7 +843,8 @@ class CrystalTreeBackground {
             crystal.x = crystal.baseX + crystalSway;
             crystal.y = crystal.baseY + crystalSway * 0.3;
             // Pendulum swing - crystals swing about their top attachment point
-            crystal.swayAngle = Math.sin(this.time * this.config.swaySpeed * 1.5 + crystal.swayOffset) * 0.15;
+            // More noticeable swing (0.25 rad ≈ 14 degrees)
+            crystal.swayAngle = Math.sin(this.time * this.config.swaySpeed * 2 + crystal.swayOffset) * 0.25;
         });
 
         // Draw tree crystals (hanging from top)

@@ -678,7 +678,14 @@ h1, h2, h3, h4, h5, h6 {
    ABOUT SECTION
    ======================================== */
 .about {
-    background: linear-gradient(180deg, rgba(10, 15, 13, 0.7), rgba(17, 25, 22, 0.75));
+    background: transparent;
+}
+
+.about > .container {
+    background: linear-gradient(180deg, rgba(10, 15, 13, 0.75), rgba(17, 25, 22, 0.8));
+    border-radius: 24px;
+    padding: var(--space-3xl);
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .about-grid {
@@ -798,7 +805,14 @@ h1, h2, h3, h4, h5, h6 {
    TRACKS SECTION
    ======================================== */
 .tracks {
-    background: rgba(17, 25, 22, 0.75);
+    background: transparent;
+}
+
+.tracks > .container {
+    background: rgba(17, 25, 22, 0.8);
+    border-radius: 24px;
+    padding: var(--space-3xl);
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .tracks-grid {
@@ -897,7 +911,14 @@ h1, h2, h3, h4, h5, h6 {
    SCHEDULE SECTION
    ======================================== */
 .schedule {
-    background: linear-gradient(180deg, rgba(17, 25, 22, 0.75), rgba(10, 15, 13, 0.7));
+    background: transparent;
+}
+
+.schedule > .container {
+    background: linear-gradient(180deg, rgba(17, 25, 22, 0.8), rgba(10, 15, 13, 0.75));
+    border-radius: 24px;
+    padding: var(--space-3xl);
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .schedule-tabs {
@@ -1033,7 +1054,14 @@ h1, h2, h3, h4, h5, h6 {
    PRIZES SECTION
    ======================================== */
 .prizes {
-    background: rgba(10, 15, 13, 0.7);
+    background: transparent;
+}
+
+.prizes > .container {
+    background: rgba(10, 15, 13, 0.75);
+    border-radius: 24px;
+    padding: var(--space-3xl);
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .prizes-showcase {
@@ -1172,7 +1200,14 @@ h1, h2, h3, h4, h5, h6 {
    SPONSORS SECTION
    ======================================== */
 .sponsors {
-    background: rgba(17, 25, 22, 0.75);
+    background: transparent;
+}
+
+.sponsors > .container {
+    background: rgba(17, 25, 22, 0.8);
+    border-radius: 24px;
+    padding: var(--space-3xl);
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .sponsor-tiers {
@@ -1239,7 +1274,14 @@ h1, h2, h3, h4, h5, h6 {
    FAQ SECTION
    ======================================== */
 .faq {
-    background: linear-gradient(180deg, rgba(17, 25, 22, 0.75), rgba(10, 15, 13, 0.7));
+    background: transparent;
+}
+
+.faq > .container {
+    background: linear-gradient(180deg, rgba(17, 25, 22, 0.8), rgba(10, 15, 13, 0.75));
+    border-radius: 24px;
+    padding: var(--space-3xl);
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .faq-grid {
@@ -1324,9 +1366,17 @@ h1, h2, h3, h4, h5, h6 {
    REGISTRATION SECTION
    ======================================== */
 .register {
-    background: rgba(10, 15, 13, 0.7);
+    background: transparent;
     position: relative;
     overflow: hidden;
+}
+
+.register > .container {
+    background: rgba(10, 15, 13, 0.75);
+    border-radius: 24px;
+    padding: var(--space-3xl);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    position: relative;
 }
 
 .register::before {
@@ -1444,7 +1494,14 @@ h1, h2, h3, h4, h5, h6 {
    TEAM SECTION
    ======================================== */
 .team {
-    background: rgba(17, 25, 22, 0.75);
+    background: transparent;
+}
+
+.team > .container {
+    background: rgba(17, 25, 22, 0.8);
+    border-radius: 24px;
+    padding: var(--space-3xl);
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .team-grid {
