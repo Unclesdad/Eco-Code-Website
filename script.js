@@ -70,6 +70,8 @@ function initNavigation() {
  */
 function initScrollEffects() {
     const scrollIndicator = document.querySelector('.scroll-indicator');
+    const heroContent = document.querySelector('.hero-content');
+    const heroTagline = document.querySelector('.hero-tagline'); // "Hack For The Planet"
 
     // Hide scroll indicator on scroll
     window.addEventListener('scroll', () => {
@@ -85,6 +87,24 @@ function initScrollEffects() {
             heroBg.style.transform = `translateY(${window.scrollY * 0.3}px)`;
         }
     });
+
+    // Hero content background fade-in on scroll
+    if (heroContent && heroTagline) {
+        const initialTaglineTop = heroTagline.getBoundingClientRect().top + window.scrollY;
+
+        window.addEventListener('scroll', () => {
+            // Start fading immediately on scroll, fully visible when tagline is at top
+            const scrollY = window.scrollY;
+            const endFade = initialTaglineTop - 80; // Fully faded in when tagline is 80px from top
+
+            let opacity = 0;
+            if (scrollY > 0) {
+                opacity = Math.min(1, scrollY / endFade);
+            }
+
+            heroContent.style.setProperty('--hero-bg-opacity', opacity);
+        }, { passive: true });
+    }
 }
 
 /**

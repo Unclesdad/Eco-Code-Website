@@ -157,7 +157,6 @@ h1, h2, h3, h4, h5, h6 {
     width: 100vw;
     height: 100vh;
     z-index: -1;
-    pointer-events: none;
 }
 
 /* ========================================
@@ -419,6 +418,22 @@ h1, h2, h3, h4, h5, h6 {
     text-align: center;
     max-width: 900px;
     animation: fadeInUp 1s ease-out;
+    position: relative;
+    padding: var(--space-2xl);
+    border-radius: 24px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.hero-content::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(10, 15, 13, 0.75);
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    opacity: var(--hero-bg-opacity, 0);
+    transition: opacity 0.3s ease;
+    z-index: -1;
 }
 
 @keyframes fadeInUp {
