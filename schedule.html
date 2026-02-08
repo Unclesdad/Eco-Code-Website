@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule & Prizes | Eco Code</title>
+    <meta name="description" content="View the Eco Code hackathon schedule, prizes, and frequently asked questions.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
+</head>
+<body>
+    <!-- Animated Background Canvas -->
+    <canvas id="bg-canvas" aria-hidden="true"></canvas>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <img src="images/icon-earth.svg" alt="" class="logo-icon">
+                <span class="logo-text">Eco<span class="highlight">Code</span></span>
+            </a>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html#about" class="nav-link">About</a></li>
+                <li><a href="index.html#tracks" class="nav-link">Tracks</a></li>
+                <li><a href="#schedule" class="nav-link">Schedule</a></li>
+                <li><a href="#prizes" class="nav-link">Prizes</a></li>
+                <li><a href="index.html#sponsors" class="nav-link">Sponsors</a></li>
+                <li><a href="#faq" class="nav-link">FAQ</a></li>
+                <li><a href="team.html" class="nav-link">Team</a></li>
+                <li><a href="index.html#register" class="nav-link btn-nav">Register Now</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="container">
+            <h1 class="page-title">Schedule & <span class="highlight">Info</span></h1>
+            <p class="page-subtitle">Everything you need to know about the event</p>
+        </div>
+    </header>
+
+    <!-- Schedule Section -->
+    <section class="section schedule" id="schedule">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Event Timeline</span>
+                <h2 class="section-title">24 Hours of <span class="highlight">Innovation</span></h2>
+                <p class="section-subtitle">All times in Eastern Time (ET)</p>
+            </div>
+            <div class="schedule-tabs">
+                <button class="schedule-tab active" data-day="1">Day 1</button>
+                <button class="schedule-tab" data-day="2">Day 2</button>
+            </div>
+            <div class="schedule-content">
+                <div class="schedule-day active" data-day="1">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-time">9:00 AM</div>
+                            <div class="timeline-content">
+                                <img src="images/icon-door.svg" alt="" class="timeline-badge">
+                                <h4>Check-in & Breakfast</h4>
+                                <p>Registration opens, grab some food, and get your swag!</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">10:00 AM</div>
+                            <div class="timeline-content">
+                                <img src="images/icon-mic.svg" alt="" class="timeline-badge">
+                                <h4>Opening Ceremony</h4>
+                                <p>Welcome address, sponsor introductions, and track announcements</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item highlight">
+                            <div class="timeline-time">11:00 AM</div>
+                            <div class="timeline-content">
+                                <img src="images/icon-rocket.svg" alt="" class="timeline-badge">
+                                <h4>Hacking Begins!</h4>
+                                <p>Form teams, brainstorm ideas, and start building</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">12:00 PM</div>
+                            <div class="timeline-content">
+                                <img src="images/icon-pizza.svg" alt="" class="timeline-badge">
+                                <h4>Lunch</h4>
+                                <p>Refuel with sustainable, locally-sourced food</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">2:00 PM</div>
+                            <div class="timeline-content">
+                                <img src="images/icon-workshop.svg" alt="" class="timeline-badge">
+                                <h4>Workshop: Intro to ML for Climate</h4>
+                                <p>Learn how to apply machine learning to environmental data</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">4:00 PM</div>
+                            <div class="timeline-content">
+                                <img src="images/icon-gamepad.svg" alt="" class="timeline-badge">
+                                <h4>Mini Event: Eco Trivia</h4>
+                                <p>Take a break and test your environmental knowledge</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">6:00 PM</div>
+                            <div class="timeline-content">
+                                <img src="images/icon-dinner.svg" alt="" class="timeline-badge">
+                                <h4>Dinner</h4>
+                                <p>Evening meal and networking</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">8:00 PM</div>
+                            <div class="timeline-content">
+                                <img src="images/icon-lightbulb.svg" alt="" class="timeline-badge">
+                                <h4>Workshop: API & Data Sources</h4>
+                                <p>Discover environmental APIs and datasets for your project</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">11:00 PM</div>
+                            <div class="timeline-content">
+                                <img src="images/icon-moon.svg" alt="" class="timeline-badge">
+                                <h4>Midnight Snacks</h4>
+                                <p>Late night fuel for the dedicated hackers</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="schedule-day" data-day="2">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-time">8:00 AM</div>
+                            <div class="timeline-content">
+                                <img src="images/icon-coffee.svg" alt="" class="timeline-badge">
+                                <h4>Breakfast</h4>
+                                <p>Morning fuel and coffee to power through</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">10:00 AM</div>
+                            <div class="timeline-content">
+                                <img src="images/icon-workshop.svg" alt="" class="timeline-badge">
+                                <h4>Workshop: Pitching Your Project</h4>
+                                <p>Learn how to present your hack effectively</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item highlight">
+                            <div class="timeline-time">11:00 AM</div>
+                            <div class="timeline-content">
+                                <img src="images/icon-clock.svg" alt="" class="timeline-badge">
+                                <h4>Hacking Ends</h4>
+                                <p>Submit your projects on Devpost</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">12:00 PM</div>
+                            <div class="timeline-content">
+                                <img src="images/icon-pizza.svg" alt="" class="timeline-badge">
+                                <h4>Lunch</h4>
+                                <p>Celebrate your accomplishments!</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">1:00 PM</div>
+                            <div class="timeline-content">
+                                <img src="images/icon-target.svg" alt="" class="timeline-badge">
+                                <h4>Project Expo</h4>
+                                <p>Demo your project to judges and fellow hackers</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">3:00 PM</div>
+                            <div class="timeline-content">
+                                <img src="images/icon-trophy.svg" alt="" class="timeline-badge">
+                                <h4>Closing Ceremony</h4>
+                                <p>Winner announcements and prizes!</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">4:30 PM</div>
+                            <div class="timeline-content">
+                                <img src="images/icon-wave.svg" alt="" class="timeline-badge">
+                                <h4>Event Ends</h4>
+                                <p>See you next year!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Prizes Section -->
+    <section class="section prizes" id="prizes">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Rewards</span>
+                <h2 class="section-title">Prizes &amp; <span class="highlight">Awards</span></h2>
+                <p class="section-subtitle">Rewards for the most innovative solutions - details coming soon!</p>
+            </div>
+            <div class="prizes-showcase">
+                <div class="prize-card grand">
+                    <img src="images/icon-medal-gold.svg" alt="" class="prize-rank">
+                    <h3 class="prize-title">Grand Prize</h3>
+                    <div class="prize-value">TBD</div>
+                    <p class="prize-description">The most innovative and impactful environmental solution</p>
+                    <ul class="prize-perks">
+                        <li>Details coming soon</li>
+                    </ul>
+                </div>
+                <div class="prize-card second">
+                    <img src="images/icon-medal-silver.svg" alt="" class="prize-rank">
+                    <h3 class="prize-title">Second Place</h3>
+                    <div class="prize-value">TBD</div>
+                    <p class="prize-description">Runner-up with exceptional execution</p>
+                    <ul class="prize-perks">
+                        <li>Details coming soon</li>
+                    </ul>
+                </div>
+                <div class="prize-card third">
+                    <img src="images/icon-medal-bronze.svg" alt="" class="prize-rank">
+                    <h3 class="prize-title">Third Place</h3>
+                    <div class="prize-value">TBD</div>
+                    <p class="prize-description">Outstanding project with great potential</p>
+                    <ul class="prize-perks">
+                        <li>Details coming soon</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="special-prizes">
+                <h3 class="special-title">Special Category Prizes</h3>
+                <div class="special-grid">
+                    <div class="special-card">
+                        <img src="images/icon-star.svg" alt="" class="special-icon">
+                        <h4>Best First-Time Hack</h4>
+                        <p>TBD</p>
+                    </div>
+                    <div class="special-card">
+                        <img src="images/icon-palette.svg" alt="" class="special-icon">
+                        <h4>Best Design</h4>
+                        <p>TBD</p>
+                    </div>
+                    <div class="special-card">
+                        <img src="images/icon-wrench.svg" alt="" class="special-icon">
+                        <h4>Best Hardware Hack</h4>
+                        <p>TBD</p>
+                    </div>
+                    <div class="special-card">
+                        <img src="images/icon-robot.svg" alt="" class="special-icon">
+                        <h4>Best Use of AI</h4>
+                        <p>TBD</p>
+                    </div>
+                    <div class="special-card">
+                        <img src="images/icon-globe.svg" alt="" class="special-icon">
+                        <h4>Most Impactful</h4>
+                        <p>TBD</p>
+                    </div>
+                    <div class="special-card">
+                        <img src="images/icon-heart.svg" alt="" class="special-icon">
+                        <h4>Community Choice</h4>
+                        <p>TBD</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="section faq" id="faq">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">FAQ</span>
+                <h2 class="section-title">Frequently Asked <span class="highlight">Questions</span></h2>
+            </div>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>What is a hackathon?</span>
+                        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 5v14M5 12h14"/>
+                        </svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>A hackathon is an invention marathon where people come together to build creative solutions to problems. At Eco Code, you'll have 36 hours to create a project focused on environmental sustainability. No prior experience needed!</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Who can participate?</span>
+                        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 5v14M5 12h14"/>
+                        </svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Eco Code is open to all students and recent graduates (within 1 year). Whether you're a computer science major, environmental studies student, or just curious about tech, you're welcome to join!</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>How much does it cost?</span>
+                        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 5v14M5 12h14"/>
+                        </svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Eco Code is completely FREE! We provide meals, snacks, swag, and everything you need to hack. Just bring your laptop and your creativity!</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Do I need a team?</span>
+                        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 5v14M5 12h14"/>
+                        </svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>You can register alone or with a team of up to 4 people. If you don't have a team, we'll have team formation activities at the start of the event to help you find the perfect teammates!</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>What should I bring?</span>
+                        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 5v14M5 12h14"/>
+                        </svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Bring your laptop, charger, any hardware you want to use, and a sleeping bag if you plan to rest on-site. We'll provide everything else including power strips, WiFi, food, and lots of caffeine!</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Is there a code of conduct?</span>
+                        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 5v14M5 12h14"/>
+                        </svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes! We follow the <a href="https://static.mlh.io/docs/mlh-code-of-conduct.pdf" target="_blank" rel="noopener">MLH Code of Conduct</a>. We're dedicated to providing a harassment-free experience for everyone, regardless of background or identity.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Will there be travel reimbursements?</span>
+                        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 5v14M5 12h14"/>
+                        </svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Travel reimbursement details are still being finalized. Check back closer to the event or follow our social media for updates!</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Can I start working on my project early?</span>
+                        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 5v14M5 12h14"/>
+                        </svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>All work must be done during the hackathon. You can come with ideas and designs, but no code should be written before hacking begins. This ensures a fair competition for everyone!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="faq-more">
+                <p>Still have questions?</p>
+                <a href="mailto:hello@ecocodehack.com" class="btn btn-outline">Contact Us</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="index.html" class="footer-logo">
+                        <img src="images/icon-earth.svg" alt="" class="logo-icon">
+                        <span class="logo-text">Eco<span class="highlight">Code</span></span>
+                    </a>
+                    <p>Hack for the Planet. Building sustainable solutions through technology.</p>
+                    <div class="footer-social">
+                        <a href="#" aria-label="Twitter">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+                                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                            </svg>
+                        </a>
+                        <a href="#" aria-label="Instagram">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                            </svg>
+                        </a>
+                        <a href="#" aria-label="Discord">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+                                <path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+                            </svg>
+                        </a>
+                        <a href="#" aria-label="GitHub">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+                                <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Event</h4>
+                        <ul>
+                            <li><a href="index.html#about">About</a></li>
+                            <li><a href="index.html#tracks">Tracks</a></li>
+                            <li><a href="#schedule">Schedule</a></li>
+                            <li><a href="#prizes">Prizes</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Resources</h4>
+                        <ul>
+                            <li><a href="#faq">FAQ</a></li>
+                            <li><a href="https://static.mlh.io/docs/mlh-code-of-conduct.pdf" target="_blank" rel="noopener">Code of Conduct</a></li>
+                            <li><a href="index.html#sponsors">Sponsors</a></li>
+                            <li><a href="mailto:hello@ecocodehack.com">Contact</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Connect</h4>
+                        <ul>
+                            <li><a href="#">Twitter</a></li>
+                            <li><a href="#">Instagram</a></li>
+                            <li><a href="#">Discord</a></li>
+                            <li><a href="#">GitHub</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; <span id="year">2025</span> Eco Code. Made with <img src="images/icon-heart-green.svg" alt="love" class="inline-icon"> for the planet.</p>
+                <p class="mlh-notice">
+                    <a href="https://mlh.io" target="_blank" rel="noopener">MLH</a> is a registered trademark of Major League Hacking, Inc.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="background.js"></script>
+</body>
+</html>
