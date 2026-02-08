@@ -21,11 +21,13 @@ class CrystalTreeBackground {
                 '#1db868', '#25d075', '#3de88a', '#5cf0a0',
                 '#134e2a', '#1a6b3a', '#22884a'
             ],
-            maxTreeCrystals: 180, // More crystals for bigger tree
+            maxTreeCrystals: 300, // More crystals for bigger tree
             maxFallingCrystals: 12,
             crystalRegenRate: 1500, // Faster regen
-            swayAmount: 6,
+            swayAmount: 0,  // Disabled - tree rotates instead
             swaySpeed: 0.0015,
+            treeRotationSpeed: 0.00006,  // Slow rotation speed
+            rotationDecay: 0.98,  // How fast rotation returns to default
             terminalVelocity: 6, // Max fall speed
             gravity: 0.03  // Slower acceleration for gentler falling
         };
@@ -39,6 +41,10 @@ class CrystalTreeBackground {
         this.scrollY = 0;
         this.time = 0;
         this.lastCrystalSpawn = 0;
+        this.treeRotation = 0;  // Rotation angle for the whole tree
+        this.rotationVelocity = this.config.treeRotationSpeed;  // Current rotation speed
+        this.isDragging = false;
+        this.lastMouseX = 0;
 
         // Crystal stacking - track heights across width columns
         this.stackColumns = 20;
@@ -61,12 +67,45 @@ class CrystalTreeBackground {
         // Click to drop crystals - use document since canvas is behind content
         document.addEventListener('click', (e) => this.handleClick(e));
 
+        // Drag to spin tree
+        document.addEventListener('mousedown', (e) => this.handleMouseDown(e));
+        document.addEventListener('mousemove', (e) => this.handleMouseMove(e));
+        document.addEventListener('mouseup', () => this.handleMouseUp());
+        document.addEventListener('mouseleave', () => this.handleMouseUp());
+
         this.createStars();
         this.createTree();
         this.createInitialCrystals();
         this.createGroundPile();
 
         this.animate();
+    }
+
+    handleMouseDown(e) {
+        // Don't start drag on interactive elements
+        const tag = e.target.tagName.toLowerCase();
+        if (tag === 'a' || tag === 'button' || tag === 'input' || tag === 'select' ||
+            e.target.closest('a') || e.target.closest('button') ||
+            e.target.closest('.nav-menu') || e.target.closest('.faq-item')) {
+            return;
+        }
+
+        this.isDragging = true;
+        this.lastMouseX = e.clientX;
+    }
+
+    handleMouseMove(e) {
+        if (!this.isDragging) return;
+
+        const deltaX = e.clientX - this.lastMouseX;
+        this.lastMouseX = e.clientX;
+
+        // Apply drag to rotation velocity (negative because dragging right should rotate tree right)
+        this.rotationVelocity = -deltaX * 0.002;
+    }
+
+    handleMouseUp() {
+        this.isDragging = false;
     }
 
     handleClick(e) {
@@ -83,23 +122,23 @@ class CrystalTreeBackground {
 
         // Account for parallax offset
         const parallaxOffset = this.scrollY * 0.25;
-        const sceneClickY = clickY + parallaxOffset;
 
-        // Find if any tree crystal was clicked
+        // Find if any tree crystal was clicked (use visual X position from 3D rotation)
         for (let i = this.treeCrystals.length - 1; i >= 0; i--) {
             const crystal = this.treeCrystals[i];
 
             // Skip crystals that aren't fully spawned
             if (crystal.spawnProgress < 0.8) continue;
 
-            // Calculate visual position (hanging crystals are offset by size)
+
+            // Crystal visual position is already calculated (crystal.x is the 3D-adjusted position)
             const visualX = crystal.x;
-            const visualY = crystal.y + crystal.size - parallaxOffset;  // Adjust for screen position
+            const visualY = crystal.y + crystal.size - parallaxOffset;
 
             // Check distance from click to crystal center
-            const dx = clickX - visualX;
-            const dy = clickY - visualY;
-            const distance = Math.sqrt(dx * dx + dy * dy);
+            const distX = clickX - visualX;
+            const distY = clickY - visualY;
+            const distance = Math.sqrt(distX * distX + distY * distY);
 
             // Hit detection with generous radius
             if (distance < crystal.size * 2) {
@@ -199,7 +238,7 @@ class CrystalTreeBackground {
         const branchZoneBottom = trunkTop + trunkHeight * 0.5;
 
         // Generate branches distributed along the trunk
-        const mainBranchCount = 14;
+        const mainBranchCount = 20;
 
         for (let i = 0; i < mainBranchCount; i++) {
             const heightRatio = Math.pow(i / (mainBranchCount - 1), 0.7);
@@ -225,6 +264,9 @@ class CrystalTreeBackground {
             const endX = startX + Math.cos(angle) * baseLength * hStretch;
             const endY = startY + Math.sin(angle) * baseLength;
 
+            // Theta is the yaw angle around the trunk (for 3D rotation effect)
+            const theta = Math.random() * Math.PI * 2;
+
             branches.push({
                 startX: startX,
                 startY: startY,
@@ -232,8 +274,9 @@ class CrystalTreeBackground {
                 endY: endY,
                 thickness: thickness,
                 swayOffset: Math.random() * Math.PI * 2,
-                children: this.generateTreeChildren(endX, endY, angle, 5, false, depthValue, thickness, hStretch),
-                depthValue: depthValue
+                children: this.generateTreeChildren(endX, endY, angle, 5, false, depthValue, thickness, hStretch, theta),
+                depthValue: depthValue,
+                theta: theta
             });
         }
 
@@ -252,6 +295,8 @@ class CrystalTreeBackground {
             const endX = startX + Math.cos(angle) * baseLength * hStretch;
             const endY = startY + Math.sin(angle) * baseLength;
 
+            const theta = Math.random() * Math.PI * 2;
+
             branches.push({
                 startX: startX,
                 startY: startY,
@@ -259,8 +304,9 @@ class CrystalTreeBackground {
                 endY: endY,
                 thickness: thickness,
                 swayOffset: Math.random() * Math.PI * 2,
-                children: this.generateTreeChildren(endX, endY, angle, 4, false, depthValue, thickness, hStretch),
-                depthValue: depthValue
+                children: this.generateTreeChildren(endX, endY, angle, 4, false, depthValue, thickness, hStretch, theta),
+                depthValue: depthValue,
+                theta: theta
             });
         }
 
@@ -280,6 +326,8 @@ class CrystalTreeBackground {
             const endX = startX + Math.cos(angle) * baseLength * hStretch;
             const endY = startY + Math.sin(angle) * baseLength;
 
+            const theta = Math.random() * Math.PI * 2;
+
             branches.push({
                 startX: startX,
                 startY: startY,
@@ -287,8 +335,9 @@ class CrystalTreeBackground {
                 endY: endY,
                 thickness: thickness,
                 swayOffset: Math.random() * Math.PI * 2,
-                children: this.generateTreeChildren(endX, endY, angle, 4, false, 0, thickness, hStretch),
-                depthValue: 0
+                children: this.generateTreeChildren(endX, endY, angle, 4, false, 0, thickness, hStretch, theta),
+                depthValue: 0,
+                theta: theta
             });
         }
 
@@ -322,6 +371,8 @@ class CrystalTreeBackground {
             const endX = startX + Math.cos(angle) * twigLength * hStretch;
             const endY = startY + Math.sin(angle) * twigLength;
 
+            const theta = Math.random() * Math.PI * 2;
+
             branches.push({
                 startX: startX,
                 startY: startY,
@@ -329,8 +380,9 @@ class CrystalTreeBackground {
                 endY: endY,
                 thickness: thickness,
                 swayOffset: Math.random() * Math.PI * 2,
-                children: this.generateTreeChildren(endX, endY, angle, 2, false, 0, thickness, hStretch),
-                depthValue: 0
+                children: this.generateTreeChildren(endX, endY, angle, 2, false, 0, thickness, hStretch, theta),
+                depthValue: 0,
+                theta: theta
             });
         }
 
@@ -374,7 +426,7 @@ class CrystalTreeBackground {
         return twigs;
     }
 
-    generateTreeChildren(x, y, parentAngle, depth, isContinuation = false, parentDepthValue = 0, parentThickness = 10, hStretch = 1.5) {
+    generateTreeChildren(x, y, parentAngle, depth, isContinuation = false, parentDepthValue = 0, parentThickness = 10, hStretch = 1.5, parentTheta = 0) {
         if (depth <= 0) return [];
 
         const children = [];
@@ -412,6 +464,9 @@ class CrystalTreeBackground {
             const taperRatio = 0.6 + Math.random() * 0.15;
             const thickness = Math.max(1.2, parentThickness * taperRatio);
 
+            // Child theta varies slightly from parent
+            const childTheta = parentTheta + (Math.random() - 0.5) * 0.5;
+
             children.push({
                 startX: x,
                 startY: y,
@@ -419,8 +474,9 @@ class CrystalTreeBackground {
                 endY: endY,
                 thickness: thickness,
                 swayOffset: Math.random() * Math.PI * 2,
-                children: this.generateTreeChildren(endX, endY, angle, depth - 1, false, depthValue, thickness, hStretch),
-                depthValue: depthValue
+                children: this.generateTreeChildren(endX, endY, angle, depth - 1, false, depthValue, thickness, hStretch, childTheta),
+                depthValue: depthValue,
+                theta: childTheta
             });
         }
 
@@ -432,15 +488,14 @@ class CrystalTreeBackground {
         const rootCount = 7;
 
         for (let i = 0; i < rootCount; i++) {
-            // Roots spread symmetrically: from lower-left (0.2π) to lower-right (0.8π)
-            // Center is 0.5π (straight down)
-            const baseAngle = 0.2 * Math.PI + (i / (rootCount - 1)) * 0.6 * Math.PI;
+            // Roots spread more sideways: from nearly horizontal left (0.1π) to nearly horizontal right (0.9π)
+            const baseAngle = 0.1 * Math.PI + (i / (rootCount - 1)) * 0.8 * Math.PI;
             const angle = baseAngle + (Math.random() - 0.5) * 0.15;
-            const length = this.width * 0.14 + Math.random() * this.width * 0.1;
+            const length = this.width * 0.16 + Math.random() * this.width * 0.12;
 
             const startX = centerX + (Math.random() - 0.5) * trunkWidth * 0.8;
             const endX = startX + Math.cos(angle) * length;
-            const endY = treeBottom + Math.sin(angle) * length * 0.7 + 60;  // Extended down more
+            const endY = treeBottom + Math.sin(angle) * length * 0.5 + 40;  // Less vertical drop
 
             // Control point for bezier curve - makes roots curve naturally
             const curveAmount = 0.3 + Math.random() * 0.2;
@@ -454,9 +509,10 @@ class CrystalTreeBackground {
                 endY: endY,
                 cpX: cpX,  // Control point for bezier curve
                 cpY: cpY,
-                startThickness: trunkWidth * 0.6,  // Thick at base
-                endThickness: 2,  // Taper to thin at end
-                children: []  // No recursive children - single curved lines
+                startThickness: trunkWidth * 0.9,  // Thicker at base
+                endThickness: 3,  // Slightly thicker at end too
+                children: [],  // No recursive children - single curved lines
+                theta: Math.random() * Math.PI * 2  // Yaw angle for 3D rotation
             });
         }
 
@@ -470,21 +526,19 @@ class CrystalTreeBackground {
         const allEndpoints = [];
 
         const collectEndpoints = (branch, depth = 0) => {
-            // Add endpoint
+            // Add endpoint with branch reference
             allEndpoints.push({
-                x: branch.endX,
-                y: branch.endY,
+                branch: branch,
+                isMidpoint: false,
                 swayOffset: branch.swayOffset,
                 depth: depth
             });
 
             // Add mid-branch point
             if (Math.random() < 0.4) {
-                const midX = (branch.startX + branch.endX) / 2;
-                const midY = (branch.startY + branch.endY) / 2;
                 allEndpoints.push({
-                    x: midX,
-                    y: midY,
+                    branch: branch,
+                    isMidpoint: true,
                     swayOffset: branch.swayOffset,
                     depth: depth
                 });
@@ -509,16 +563,16 @@ class CrystalTreeBackground {
         const crystalCount = Math.min(this.config.maxTreeCrystals, allEndpoints.length);
         for (let i = 0; i < crystalCount; i++) {
             const point = allEndpoints[i];
-            this.treeCrystals.push(this.createTreeCrystal(point.x, point.y, point.swayOffset));
+            this.treeCrystals.push(this.createTreeCrystal(point.branch, point.isMidpoint, point.swayOffset));
         }
     }
 
-    createTreeCrystal(x, y, swayOffset) {
+    createTreeCrystal(branch, isMidpoint, swayOffset) {
         return {
-            baseX: x,
-            baseY: y,
-            x: x,
-            y: y,
+            branch: branch,  // Reference to the branch this crystal hangs from
+            isMidpoint: isMidpoint,  // Whether it's at midpoint or endpoint
+            x: 0,
+            y: 0,
             size: 12 + Math.random() * 16,  // Larger crystals
             color: this.config.crystalColors[Math.floor(Math.random() * this.config.crystalColors.length)],
             swayOffset: swayOffset + Math.random() * 0.5,
@@ -688,7 +742,7 @@ class CrystalTreeBackground {
         if (allBranches.length === 0) return;
 
         const branch = allBranches[Math.floor(Math.random() * allBranches.length)];
-        this.treeCrystals.push(this.createTreeCrystal(branch.endX, branch.endY, branch.swayOffset));
+        this.treeCrystals.push(this.createTreeCrystal(branch, false, branch.swayOffset));
     }
 
     updateFallingCrystals() {
@@ -749,25 +803,66 @@ class CrystalTreeBackground {
         this.ctx.fill();
     }
 
-    drawBranch(branch, sway) {
-        const swayX = Math.sin(this.time * this.config.swaySpeed + branch.swayOffset) * sway;
+    drawBranch(branch, centerX, parentVisualEndX = null, parentVisualEndY = null) {
+        const theta = branch.theta || 0;
+        const horizontalFactor = Math.sin(theta + this.treeRotation);
+
+        // Start position: use parent's visual end directly if provided
+        let visualStartX, visualStartY;
+        if (parentVisualEndX !== null) {
+            // Child starts exactly where parent ended
+            visualStartX = parentVisualEndX;
+            visualStartY = parentVisualEndY;
+        } else {
+            // Root branch: transform the start position
+            const startOffsetX = branch.startX - centerX;
+            visualStartX = centerX + startOffsetX * horizontalFactor;
+            visualStartY = branch.startY;
+        }
+
+        // End position: calculate the offset from start and apply rotation
+        const branchDeltaX = branch.endX - branch.startX;
+        const branchDeltaY = branch.endY - branch.startY;
+        const visualEndX = visualStartX + branchDeltaX * horizontalFactor;
+        const visualEndY = visualStartY + branchDeltaY;
+
+        // Depth shading: cos gives forward/backward position
+        // cos = 1 means toward viewer (lighter), cos = -1 means away (darker)
+        const depthFactor = Math.cos(theta + this.treeRotation);
+
+        // Calculate distance from trunk center for scaling the effect
+        const avgX = (visualStartX + visualEndX) / 2;
+        const distanceFromTrunk = Math.abs(avgX - centerX) / (this.width * 0.3);
+        const depthInfluence = Math.min(1, distanceFromTrunk);
+
+        // Normalize depth: -1 to 1 -> 0 to 1, then apply distance scaling
+        const normalizedDepth = ((depthFactor + 1) / 2) * depthInfluence + (1 - depthInfluence) * 0.5;
+
+        // Interpolate color: darker (farther) to lighter (closer) - extreme
+        const r = Math.round(10 + normalizedDepth * 100);   // 10 to 110
+        const g = Math.round(20 + normalizedDepth * 120);   // 20 to 140
+        const b = Math.round(15 + normalizedDepth * 90);    // 15 to 105
+        const branchColor = `rgb(${r}, ${g}, ${b})`;
 
         this.ctx.beginPath();
-        this.ctx.moveTo(branch.startX, branch.startY);
-        this.ctx.lineTo(branch.endX + swayX, branch.endY + swayX * 0.3);
-        this.ctx.strokeStyle = '#3d5c47';
+        this.ctx.moveTo(visualStartX, visualStartY);
+        this.ctx.lineTo(visualEndX, visualEndY);
+        this.ctx.strokeStyle = branchColor;
+        this.ctx.globalAlpha = 1.0;
         this.ctx.lineWidth = branch.thickness;
         this.ctx.lineCap = 'round';
         this.ctx.stroke();
+        this.ctx.globalAlpha = 1.0;
 
-        // Draw children with increased sway
+        // Store visual positions for crystal positioning
+        branch.visualStartX = visualStartX;
+        branch.visualStartY = visualStartY;
+        branch.visualEndX = visualEndX;
+        branch.visualEndY = visualEndY;
+
+        // Draw children, passing the visual end position as their start
         branch.children.forEach(child => {
-            const childBranch = {
-                ...child,
-                startX: branch.endX + swayX,
-                startY: branch.endY + swayX * 0.3
-            };
-            this.drawBranch(childBranch, sway * 1.3);
+            this.drawBranch(child, centerX, visualEndX, visualEndY);
         });
     }
 
@@ -779,7 +874,8 @@ class CrystalTreeBackground {
         // Ease out cubic for smooth growth
         const eased = 1 - Math.pow(1 - spawnProgress, 3);
         const scale = 0.3 + eased * 0.7;  // Scale from 30% to 100%
-        const opacity = eased;  // Fade from 0 to 1
+        let opacity = eased;  // Fade from 0 to 1
+
 
         if (opacity <= 0) {
             this.ctx.restore();
@@ -853,41 +949,75 @@ class CrystalTreeBackground {
         return `rgb(${R}, ${G}, ${B})`;
     }
 
-    drawTree() {
-        const sway = this.config.swayAmount;
+    adjustColorBrightness(color, amount) {
+        const num = parseInt(color.replace('#', ''), 16);
+        const R = Math.max(0, Math.min(255, (num >> 16) + amount));
+        const G = Math.max(0, Math.min(255, ((num >> 8) & 0x00FF) + amount));
+        const B = Math.max(0, Math.min(255, (num & 0x0000FF) + amount));
+        return `rgb(${R}, ${G}, ${B})`;
+    }
 
-        // Draw trunk with taper
+    drawTree() {
+        const centerX = this.width / 2;
+
+        // Sort branches by rotation factor so "back" branches draw first
+        const sortedBranches = [...this.tree.branches].sort((a, b) => {
+            const rotA = Math.cos((a.theta || 0) + this.treeRotation);
+            const rotB = Math.cos((b.theta || 0) + this.treeRotation);
+            return rotA - rotB;  // Draw back branches first
+        });
+
+        // Draw back branches first
+        sortedBranches.filter(b => Math.cos((b.theta || 0) + this.treeRotation) < 0)
+            .forEach(branch => this.drawBranch(branch, centerX));
+
+        // Draw trunk with taper - single color matching branches parallel to screen
         const trunk = this.tree.trunk;
         const topWidth = trunk.width * 0.6;
         const bottomWidth = trunk.width * 1.3;
 
+        // Color at normalizedDepth = 0.5 (parallel to screen)
+        // r = 10 + 0.5 * 100 = 60, g = 20 + 0.5 * 120 = 80, b = 15 + 0.5 * 90 = 60
         this.ctx.beginPath();
         this.ctx.moveTo(trunk.x - topWidth / 2, trunk.top);
         this.ctx.lineTo(trunk.x + topWidth / 2, trunk.top);
         this.ctx.lineTo(trunk.x + bottomWidth / 2, trunk.bottom);
         this.ctx.lineTo(trunk.x - bottomWidth / 2, trunk.bottom);
         this.ctx.closePath();
-        this.ctx.fillStyle = '#3d5c47';
+        this.ctx.fillStyle = 'rgb(60, 80, 60)';
         this.ctx.fill();
 
-        // Draw branches
-        this.tree.branches.forEach(branch => this.drawBranch(branch, sway));
+        // Draw front branches on top of trunk
+        sortedBranches.filter(b => Math.cos((b.theta || 0) + this.treeRotation) >= 0)
+            .forEach(branch => this.drawBranch(branch, centerX));
 
         // Draw roots
-        this.tree.roots.forEach(root => this.drawRoot(root));
+        this.tree.roots.forEach(root => this.drawRoot(root, centerX));
     }
 
-    drawRoot(root) {
+    drawRoot(root, centerX) {
+        const theta = root.theta || 0;
+        const horizontalFactor = Math.sin(theta + this.treeRotation);
+
         // Draw tapered root using multiple segments
         const segments = 12;
-        const cpX = root.cpX || (root.startX + root.endX) / 2;
+
+        // Apply rotation to control point and end point
+        const startOffsetX = root.startX - centerX;
+        const cpOffsetX = (root.cpX || (root.startX + root.endX) / 2) - centerX;
+        const endOffsetX = root.endX - centerX;
+
+        const visualStartX = centerX + startOffsetX * horizontalFactor;
+        const visualCpX = centerX + cpOffsetX * horizontalFactor;
+        const visualEndX = centerX + endOffsetX * horizontalFactor;
+
         const cpY = root.cpY || root.startY + (root.endY - root.startY) * 0.4;
         const startThick = root.startThickness || root.thickness || 10;
         const endThick = root.endThickness || 2;
 
         // Sample points along the quadratic bezier curve
         const getPoint = (t) => {
-            const x = (1-t)*(1-t)*root.startX + 2*(1-t)*t*cpX + t*t*root.endX;
+            const x = (1-t)*(1-t)*visualStartX + 2*(1-t)*t*visualCpX + t*t*visualEndX;
             const y = (1-t)*(1-t)*root.startY + 2*(1-t)*t*cpY + t*t*root.endY;
             return { x, y };
         };
@@ -948,16 +1078,27 @@ class CrystalTreeBackground {
         this.shootingStars.forEach(star => this.drawShootingStar(star));
         this.spaceships.forEach(ship => this.drawSpaceship(ship));
 
-        // Draw tree
+        // Draw tree with 3D Y-axis rotation
         this.drawTree();
 
-        // Update tree crystal positions and pendulum swing
+        // Update tree crystal positions from branch visual endpoints
         this.treeCrystals.forEach(crystal => {
-            const crystalSway = Math.sin(this.time * this.config.swaySpeed + crystal.swayOffset) * this.config.swayAmount;
-            crystal.x = crystal.baseX + crystalSway;
-            crystal.y = crystal.baseY + crystalSway * 0.3;
-            // Pendulum swing - crystals swing about their top attachment point
-            crystal.swayAngle = Math.sin(this.time * this.config.swaySpeed * 2 + crystal.swayOffset) * 0.25;
+            const branch = crystal.branch;
+            if (branch && branch.visualEndX !== undefined) {
+                if (crystal.isMidpoint) {
+                    // Midpoint: average of visual start and end
+                    crystal.x = (branch.visualStartX + branch.visualEndX) / 2;
+                    crystal.y = (branch.visualStartY + branch.visualEndY) / 2;
+                } else {
+                    // Endpoint
+                    crystal.x = branch.visualEndX;
+                    crystal.y = branch.visualEndY;
+                }
+
+            }
+
+            // Gentle pendulum swing still applies to individual crystals
+            crystal.swayAngle = Math.sin(this.time * this.config.swaySpeed * 2 + crystal.swayOffset) * 0.15;
             // Grow-in animation
             if (crystal.spawnProgress < 1) {
                 crystal.spawnProgress = Math.min(1, crystal.spawnProgress + 0.02);
@@ -988,6 +1129,18 @@ class CrystalTreeBackground {
 
     animate() {
         this.time++;
+
+        // Update tree rotation
+        this.treeRotation += this.rotationVelocity;
+
+        // Gradually return to default speed magnitude, but keep current direction
+        if (!this.isDragging) {
+            const baseSpeed = this.config.treeRotationSpeed;
+            const direction = this.rotationVelocity >= 0 ? 1 : -1;
+            const targetSpeed = baseSpeed * direction;
+            const diff = targetSpeed - this.rotationVelocity;
+            this.rotationVelocity += diff * (1 - this.config.rotationDecay);
+        }
 
         // Randomly drop crystals
         if (Math.random() < 0.005 && this.treeCrystals.length > 20) {
