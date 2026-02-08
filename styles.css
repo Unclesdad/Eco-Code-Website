@@ -856,8 +856,14 @@ h1, h2, h3, h4, h5, h6 {
 
 .tracks-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: var(--space-xl);
+}
+
+@media (max-width: 768px) {
+    .tracks-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 .track-card {
