@@ -237,6 +237,19 @@ h1, h2, h3, h4, h5, h6 {
     display: inline;
 }
 
+.inline-logo {
+    height: 1.1em;
+    width: auto;
+    vertical-align: middle;
+    display: inline;
+    margin: 0 0.1em;
+}
+
+.footer-logo-img {
+    height: 36px;
+    width: auto;
+}
+
 /* ========================================
    LAYOUT
    ======================================== */
@@ -296,6 +309,11 @@ h1, h2, h3, h4, h5, h6 {
 
 .logo-icon {
     font-size: 1.75rem;
+}
+
+.logo-img {
+    height: 40px;
+    width: auto;
 }
 
 .nav-menu {
@@ -476,6 +494,14 @@ h1, h2, h3, h4, h5, h6 {
     line-height: 0.9;
     letter-spacing: -0.02em;
     margin-bottom: var(--space-lg);
+}
+
+.hero-logo {
+    max-width: 400px;
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
 }
 
 .title-line {
