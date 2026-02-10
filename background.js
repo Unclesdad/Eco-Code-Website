@@ -15,7 +15,7 @@ class CrystalTreeBackground {
 
         // Configuration
         this.config = {
-            starCount: 200,
+            starCount: 400,
             crystalColors: [
                 '#0a5c36', '#0d7343', '#10894f', '#15a05c',
                 '#1db868', '#25d075', '#3de88a', '#5cf0a0',
@@ -197,12 +197,14 @@ class CrystalTreeBackground {
         this.stars = [];
         for (let i = 0; i < this.config.starCount; i++) {
             this.stars.push({
-                x: Math.random() * this.width,
+                baseX: Math.random() * this.width,  // Base position (will be offset by rotation)
                 y: Math.random() * this.sceneHeight * 0.7, // Stars throughout most of scene
                 size: Math.random() * 2 + 0.5,
                 brightness: Math.random(),
                 flickerSpeed: Math.random() * 0.02 + 0.005,
-                flickerOffset: Math.random() * Math.PI * 2
+                flickerOffset: Math.random() * Math.PI * 2,
+                // Parallax depth: stars further from center move more
+                parallaxDepth: 0.5 + Math.random() * 1.5
             });
         }
     }
@@ -264,7 +266,7 @@ class CrystalTreeBackground {
             const endX = startX + Math.cos(angle) * baseLength * hStretch;
             const endY = startY + Math.sin(angle) * baseLength;
 
-            // Theta is the yaw angle around the trunk (for 3D rotation effect)
+            // Theta is the position around the trunk (0 to 2π) for 3D rotation
             const theta = Math.random() * Math.PI * 2;
 
             branches.push({
@@ -464,8 +466,8 @@ class CrystalTreeBackground {
             const taperRatio = 0.6 + Math.random() * 0.15;
             const thickness = Math.max(1.2, parentThickness * taperRatio);
 
-            // Child theta varies slightly from parent
-            const childTheta = parentTheta + (Math.random() - 0.5) * 0.5;
+            // Child theta stays very close to parent for consistent depth shading
+            const childTheta = parentTheta + (Math.random() - 0.5) * 0.05;
 
             children.push({
                 startX: x,
@@ -797,8 +799,18 @@ class CrystalTreeBackground {
         const flicker = Math.sin(this.time * star.flickerSpeed + star.flickerOffset) * 0.5 + 0.5;
         const alpha = star.brightness * flicker * 0.8 + 0.1;
 
+        // Move stars opposite to tree rotation (we're orbiting around the tree)
+        // When we orbit right (treeRotation decreases), stars should move left
+        // Multiply rotation by a large factor to make the movement visible
+        const rotationOffset = this.treeRotation * this.width * 0.3 * star.parallaxDepth;
+
+        // Calculate X position with wrapping
+        let x = star.baseX + rotationOffset;
+        // Wrap around screen edges for seamless scrolling
+        x = ((x % this.width) + this.width) % this.width;
+
         this.ctx.beginPath();
-        this.ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+        this.ctx.arc(x, star.y, star.size, 0, Math.PI * 2);
         this.ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
         this.ctx.fill();
     }
@@ -826,19 +838,14 @@ class CrystalTreeBackground {
         const visualEndX = visualStartX + branchDeltaX * horizontalFactor;
         const visualEndY = visualStartY + branchDeltaY;
 
-        // Depth shading: cos gives forward/backward position
-        // cos = 1 means toward viewer (lighter), cos = -1 means away (darker)
+        // Depth shading using cos(theta + rotation)
+        // cos = 1: pointing away from viewer (behind trunk) = darkest
+        // cos = -1: pointing toward viewer (in front of trunk) = lightest
+        // cos = 0: pointing sideways (left/right edges) = medium
         const depthFactor = Math.cos(theta + this.treeRotation);
+        const normalizedDepth = (1 - depthFactor) / 2; // Maps: behind(1)->0, front(-1)->1
 
-        // Calculate distance from trunk center for scaling the effect
-        const avgX = (visualStartX + visualEndX) / 2;
-        const distanceFromTrunk = Math.abs(avgX - centerX) / (this.width * 0.3);
-        const depthInfluence = Math.min(1, distanceFromTrunk);
-
-        // Normalize depth: -1 to 1 -> 0 to 1, then apply distance scaling
-        const normalizedDepth = ((depthFactor + 1) / 2) * depthInfluence + (1 - depthInfluence) * 0.5;
-
-        // Interpolate color: darker (farther) to lighter (closer) - extreme
+        // Interpolate color: darker (behind) to lighter (in front)
         const r = Math.round(10 + normalizedDepth * 100);   // 10 to 110
         const g = Math.round(20 + normalizedDepth * 120);   // 20 to 140
         const b = Math.round(15 + normalizedDepth * 90);    // 15 to 105
